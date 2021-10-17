@@ -4,13 +4,22 @@
 #steps - 1st we check out the code from the project and load it into the VM environment
 name: deploy-container
 
-on:
+on: 
   push:
     branches:
       - master #or main
     paths:
       - 'packages/container/**' #run this workflow when we change something inside container
-
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Person to greet'
+        required: true
+        default: 'Mona the Octocat'
+      home:
+        description: 'location'
+        required: false
+        default: 'The Octoverse'
 defaults:
   run:
     working-directory: packages/container #all the commands in this file will run inside the container folder 
@@ -34,4 +43,8 @@ jobs:
       #     service_account_email: ${{ secrets.GCP_EMAIL }}
       #     service_account_key: ${{ secrets.GCP_CREDENTIALS }}
       #     export_default_credentials: true
+      #   env:
+      #     GCP_SERVICE_ACCOUNT_KEY_FILE: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY_FILE }}
+      #     GCP_STORAGE_BUCKET: ${{ secrets.GCP_STORAGE_BUCKET }}
+      #     SOURCE_DIR: "public"
       # - run: gsutil rsync -d -r dist gs://${{ secrets.GCP_BUCKET_NAME }}/data
