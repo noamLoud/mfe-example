@@ -11,15 +11,7 @@ on:
     paths:
       - 'packages/container/**' #run this workflow when we change something inside container
   workflow_dispatch:
-    inputs:
-      name:
-        description: 'Person to greet'
-        required: true
-        default: 'Mona the Octocat'
-      home:
-        description: 'location'
-        required: false
-        default: 'The Octoverse'
+  
 defaults:
   run:
     working-directory: packages/container #all the commands in this file will run inside the container folder 
