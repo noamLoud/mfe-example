@@ -17,26 +17,26 @@ defaults:
     working-directory: packages/container #all the commands in this file will run inside the container folder 
 jobs:
   build:
-    runs-on: windows-latest #ubuntu-latest
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - run: npm install
-      - run: npm run build
+      # - uses: actions/checkout@v2
+      # - run: npm install
+      # - run: npm run build
 
-      - uses: chrislennon/action-aw-cli@v1.1
-      - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
-        env: 
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      # - uses: chrislennon/action-aw-cli@v1.1
+      # - run: aws s3 sync dist s3://${{ secrets.AWS_S3_BUCKET_NAME }}/container/latest
+      #   env: 
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
        # Setup gcloud CLI
-      # - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-      #   with:
-      #     service_account_email: ${{ secrets.GCP_EMAIL }}
-      #     service_account_key: ${{ secrets.GCP_CREDENTIALS }}
-      #     export_default_credentials: true
-      #   env:
-      #     GCP_SERVICE_ACCOUNT_KEY_FILE: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY_FILE }}
-      #     GCP_STORAGE_BUCKET: ${{ secrets.GCP_STORAGE_BUCKET }}
-      #     SOURCE_DIR: "public"
-      # - run: gsutil rsync -d -r dist gs://${{ secrets.GCP_BUCKET_NAME }}/data
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          service_account_email: ${{ secrets.GCP_EMAIL }}
+          service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+          export_default_credentials: true
+        env:
+          GCP_SERVICE_ACCOUNT_KEY_FILE: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY_FILE }}
+          GCP_STORAGE_BUCKET: ${{ secrets.GCP_STORAGE_BUCKET }}
+          SOURCE_DIR: "public"
+      - run: gsutil rsync -d -r dist gs://${{ secrets.GCP_BUCKET_NAME }}/data
