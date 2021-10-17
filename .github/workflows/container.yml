@@ -9,14 +9,14 @@ on:
     branches:
       - master #or main
     paths:
-      - 'packages/container/**'
+      - 'packages/container/**' #run this workflow when we change something inside container
 
 defaults:
   run:
-    working-directory: packages/container
+    working-directory: packages/container #all the commands in this file will run inside the container folder 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest #ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
