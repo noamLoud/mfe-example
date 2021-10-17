@@ -1,16 +1,20 @@
+#when this file is pushed to github, github assumes that this file is a workflow that's gonna be executed at some point
+#yml syntax (like json). Formatting is tab based
+#on branches  master or main
+#steps - 1st we check out the code from the project and load it into the VM environment
 name: deploy-container
 
 on: 
   push:
     branches:
-      - master
+      - master #or main
     paths:
-      - 'packages/container/**'
+      - 'packages/container/**' #run this workflow when we change something inside container
   workflow_dispatch:
   
 defaults:
   run:
-    working-directory: packages/container
+    working-directory: packages/container #all the commands in this file will run inside the container folder 
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,3 +29,14 @@ jobs:
         env: 
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+       # Setup gcloud CLI
+      # - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      #   with:
+      #     service_account_email: ${{ secrets.GCP_EMAIL }}
+      #     service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+      #     export_default_credentials: true
+      #   env:
+      #     GCP_SERVICE_ACCOUNT_KEY_FILE: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY_FILE }}
+      #     GCP_STORAGE_BUCKET: ${{ secrets.GCP_STORAGE_BUCKET }}
+      #     SOURCE_DIR: "public"
+      # - run: gsutil rsync -d -r dist gs://${{ secrets.GCP_BUCKET_NAME }}/data
